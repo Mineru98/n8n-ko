@@ -3,6 +3,7 @@ import type { INodeProperties, INodePropertyCollection, INodePropertyOptions } f
 import { createI18n } from 'vue-i18n';
 
 import englishBaseText from './locales/en.json';
+import koreanBaseText from './locales/ko.json';
 import type { BaseTextKey, INodeTranslationHeaders } from './types';
 import {
 	deriveMiddleKey,
@@ -16,7 +17,7 @@ export * from './types';
 export const i18nInstance = createI18n({
 	locale: 'en',
 	fallbackLocale: 'en',
-	messages: { en: englishBaseText },
+	messages: { en: englishBaseText, ko: koreanBaseText },
 	warnHtmlInMessage: 'off',
 });
 
@@ -359,7 +360,7 @@ export class I18nClass {
 	}
 
 	localizeNodeName(language: string, nodeName: string, type: string) {
-		if (language === 'en') return nodeName;
+		if (language === 'en' || language === 'ko') return nodeName;
 
 		const nodeTypeName = this.shortNodeType(type);
 
@@ -374,10 +375,10 @@ export class I18nClass {
 	};
 }
 
-const loadedLanguages = ['en'];
+const loadedLanguages = ['en', 'ko'];
 
 async function setLanguage(language: string) {
-	i18nInstance.global.locale = language as 'en';
+	i18nInstance.global.locale = language as 'en' | 'ko';
 	document!.querySelector('html')!.setAttribute('lang', language);
 
 	return language;
